@@ -94,10 +94,10 @@ bot.on('message', async (ctx, next) => {
         then(data => {
       
         const startIndex = data.indexOf('<td>1</td>')
-        const endIndex = data.lastIndexOf('<td>2</td>')
+        const endIndex = data.lastIndexOf(url)
         const content = data.substring(startIndex, endIndex + 1).toString()
         const linkRegex2 = /href="(.*?)"/;
-        const long = /https:\/\/longhousee.me/
+        const long = /https:\/\/vn.shp.ee\//
         const lH = content.match(linkRegex2)[1]
           const videoId = content.match(/data-id="(\d+)"/)
           const userId = content.match(/user-id="([^"]+)"/)
@@ -119,12 +119,11 @@ bot.on('message', async (ctx, next) => {
           },
           "body": `user_id=${userId[1]}&id=${videoId[1]}`,
           "method": "POST"
-        }).then(
-          fetch(lH)
-          .then(async (response) => await response.url).then(async (data) => {
-            const video = data.split("?")[0]
+        }).then(resp => {resp.text()
+          
+            const video = lH.split("?")[0]
             const strMess = `Đã Gắn Video Thành Công ${tagName}`
-           await ctx.replyWithPhoto("https://down-vn.img.susercontent.com/file/vn-11134201-7r98o-lp0773go9gemea",{caption: strMess, message_thread_id: threadID, reply_markup: {
+           ctx.replyWithPhoto("https://down-vn.img.susercontent.com/file/vn-11134201-7r98o-lp0773go9gemea",{caption: strMess, message_thread_id: threadID, reply_markup: {
               inline_keyboard: [
                 /* Inline buttons. 2 side-by-side */
                 [ { text: "💯 Đến Video 💯", url: video }],
@@ -135,9 +134,9 @@ bot.on('message', async (ctx, next) => {
           }
      , parse_mode: "HTML"});
           
-          }) 
+        }) 
         
-        )
+        
                 
           
         
